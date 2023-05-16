@@ -1,5 +1,5 @@
-const previousOperandText = document.querySelector('#previousOperand>h3');
-const currentOperandText = document.querySelector('#currentOperand>h3');
+const previousOperandText = document.querySelector('#previousOperandText');
+const currentOperandText = document.querySelector('#currentOperandText');
 const numberKeys = document.querySelectorAll('.numberKeys');
 const cancelEntryKey = document.querySelector('#cancelEntryKey');
 const clearKey = document.querySelector('#clearKey');
@@ -7,13 +7,10 @@ const deleteKey = document.querySelector('#deleteKey');
 const squaredKey = document.querySelector('#squaredKey');
 const squareRootKey = document.querySelector('#squareRootKey');
 const oneDivXKey = document.querySelector('#oneDivXKey');
-const divisionKey = document.querySelector('#divisionKey');
-const plusKey = document.querySelector('#plusKey');
-const minusKey = document.querySelector('#minusKey');
-const timesKey = document.querySelector('#timesKey');
 const equalKey = document.querySelector('#equalKey');
 const commaKey = document.querySelector('#commaKey');
 const operationKeys = document.querySelectorAll('.operationKeys')
+const plusOrMinusKey = document.querySelectorAll('#plusOrMinusKey')
 
 // ------------------------------------------------------------------- //
 
@@ -103,41 +100,23 @@ class Calculator {
 const calculator = new Calculator(previousOperandText, currentOperandText);
 
 for (const nKeys of numberKeys) {
-  numberKeys.addEventListener('click', () => {
-    calculator.appendNumber(nKeys.innerText);
-  })
-}
+  nKeys.addEventListener('click', () => { calculator.appendNumber(nKeys.innerText); });
+};
 
 for (const oKeys of operationKeys) {
-  operationKeys.addEventListener('click', () => {
-    calculator.chooseOperation(oKeys.innerText);
-  })
-}
+  oKeys.addEventListener('click', () => { calculator.chooseOperation(oKeys.innerText); });
+};
 
-cancelEntryKey.addEventListener('click', () => {
-  calculator.cancelEntry();
-})
+cancelEntryKey.addEventListener('click', () => { calculator.cancelEntry(); });
 
-clearKey.addEventListener('click', () => {
-  calculator.clear();
-})
+clearKey.addEventListener('click', () => { calculator.clear(); });
 
-deleteKey.addEventListener('click', () => {
-  calculator.delete();
-})
+deleteKey.addEventListener('click', () => { calculator.delete(); });
 
-squaredKey.addEventListener('click', () => {
-  calculator.squared();
-})
+squaredKey.addEventListener('click', () => { calculator.squared(); });
 
-squareRootKey.addEventListener('click', () => {
-  calculator.squareRoot();
-})
+squareRootKey.addEventListener('click', () => { calculator.squareRoot(); });
 
-oneDivXKey.addEventListener('click', () => {
-  calculator.oneDivXKey();
-})
+oneDivXKey.addEventListener('click', () => { calculator.oneDivXKey(); });
 
-equalKey.addEventListener('click', () => {
-  calculator.calculate();
-})
+equalKey.addEventListener('click', () => { calculator.calculate(); });
