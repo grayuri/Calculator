@@ -7,6 +7,7 @@ const deleteKey = document.querySelector('#deleteKey');
 const squaredKey = document.querySelector('#squaredKey');
 const squareRootKey = document.querySelector('#squareRootKey');
 const oneDivXKey = document.querySelector('#oneDivXKey');
+const percentKey = document.querySelector('#percentKey');
 const equalKey = document.querySelector('#equalKey');
 const commaKey = document.querySelector('#commaKey');
 const operationKeys = document.querySelectorAll('.operationKeys')
@@ -22,7 +23,7 @@ class Calculator {
   }
 
   cancelEntry() {
-    return this.operation = undefined;
+    return this.currentOperand = "";
   }
 
   clear() {
@@ -31,20 +32,49 @@ class Calculator {
     this.operation = undefined;
   }
 
-  delete() {
-    this.currentOperand = this.currentOperand.toString().slice(0, -1)
+  squareRoot() {
+    let result;
+    let cOperand = parseFloat(this.currentOperand);
+
+    result = Math.sqrt(cOperand);
+    this.currentOperand = result;
+    this.previousOperand = cOperand;
   }
 
   squared() {
-    Math.pow(this.currentOperand, 2)
-  }
+    let result;
+    let cOperand = parseFloat(this.currentOperand);
+    let pOperand = parseFloat(this.previousOperand);
 
-  squareRoot() {
-    Math.sqrt(this.currentOperand)
+    result = Math.pow(cOperand, 2);
+    this.currentOperand = result;
+    this.previousOperand = cOperand;
   }
 
   oneDivX() {
-    1 / (this.currentOperand);
+    let result;
+    let cOperand = parseFloat(this.currentOperand);
+    let pOperand = parseFloat(this.previousOperand);
+
+    result = 1 / cOperand;
+    this.currentOperand = result;
+    this.previousOperand = cOperand;
+  }
+
+  plusOrMinus() {
+    let result;
+    let cOperand = parseFloat(this.currentOperand);
+
+    if (cOperand<0) {
+      let num = cOperand.toString().split('').shift().join();
+      result = Number(num);
+    }
+
+    this.currentOperand = result;
+  }
+
+  delete() {
+    this.currentOperand = this.currentOperand.toString().slice(0, -1)
   }
 
   calculate() {
@@ -55,7 +85,7 @@ class Calculator {
 
     if (isNaN(pOperand) || isNaN(cOperand)) return;
 
-    switch(this.operation) {
+    switch (this.operation) {
       case "+":
         result = pOperand + cOperand;
         break;
@@ -68,6 +98,9 @@ class Calculator {
       case "*":
         result = pOperand * cOperand;
         break;
+      // case "%":
+      //
+      // break
       default: return;
     }
 
@@ -114,7 +147,7 @@ class Calculator {
       return integerDisplay;
     }
   }
-  
+
   updateDisplay() {
     this.previousOperandText.innerText = `${this.formatDisplayNumber(this.previousOperand)} ${this.operation || ""}`;
     this.currentOperandText.innerText = this.formatDisplayNumber(this.currentOperand);
@@ -124,27 +157,55 @@ class Calculator {
 const calculator = new Calculator(previousOperandText, currentOperandText);
 
 for (const nKeys of numberKeys) {
-  nKeys.addEventListener('click', () => { 
-    calculator.appendNumber(nKeys.innerText); 
-    calculator.updateDisplay()});
+  nKeys.addEventListener('click', () => {
+    calculator.appendNumber(nKeys.innerText);
+    calculator.updateDisplay()
+  })
 };
 
 for (const oKeys of operationKeys) {
-  oKeys.addEventListener('click', () => { 
-    calculator.chooseOperation(oKeys.innerText); 
-    calculator.updateDisplay()});
+  oKeys.addEventListener('click', () => {
+    calculator.chooseOperation(oKeys.innerText);
+    calculator.updateDisplay()
+  })
 };
 
-cancelEntryKey.addEventListener('click', () => { calculator.cancelEntry(); calculator.updateDisplay();});
+cancelEntryKey.addEventListener('click', () => {
+  calculator.cancelEntry();
+  calculator.updateDisplay()
+});
 
-clearKey.addEventListener('click', () => { calculator.clear(); calculator.updateDisplay();});
+clearKey.addEventListener('click', () => {
+  calculator.clear();
+  calculator.updateDisplay()
+});
 
-deleteKey.addEventListener('click', () => { calculator.delete(); calculator.updateDisplay();});
+deleteKey.addEventListener('click', () => {
+  calculator.delete();
+  calculator.updateDisplay()
+});
 
-squaredKey.addEventListener('click', () => { calculator.squared(); calculator.updateDisplay();});
+equalKey.addEventListener('click', () => {
+  calculator.calculate();
+  calculator.updateDisplay()
+});
 
-squareRootKey.addEventListener('click', () => { calculator.squareRoot(); calculator.updateDisplay();});
+squaredKey.addEventListener('click', () => {
+  calculator.squared()
+  calculator.updateDisplay();
+})
 
-oneDivXKey.addEventListener('click', () => { calculator.oneDivX(); calculator.updateDisplay();});
+squareRootKey.addEventListener('click', () => {
+  calculator.squareRoot()
+  calculator.updateDisplay();
+})
 
-equalKey.addEventListener('click', () => { calculator.calculate(); calculator.updateDisplay();});
+oneDivXKey.addEventListener('click', () => {
+  calculator.oneDivX()
+  calculator.updateDisplay();
+})
+
+// plusOrMinusKey.addEventListener('click', () => {
+//   calculator.plusOrMinus()
+//   calculator.updateDisplay();
+// })
